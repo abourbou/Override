@@ -1,0 +1,12 @@
+    if (aiStack20[0] != 0x149c) {
+        puts("\nInvalid Password!");
+    }
+    else {
+        puts("\nAuthenticated!");
+        system("/bin/sh");
+    }
+
+    So we just have to input 0x149c (we have to convert it from hex to dec)
+    (0x149c)16 = (5276)10
+
+    cat /home/users/level01/.pass
