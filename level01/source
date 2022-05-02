@@ -1,3 +1,49 @@
+int32_t verify_user_pass(char *arg_8h)
+{
+    int32_t iVar1;
+    uint8_t *puVar2;
+    undefined in_CF;
+    undefined in_ZF;
+    
+    iVar1 = 5;
+    puVar2 = (uint8_t *)"admin";
+    do {
+        if (iVar1 == 0) break;
+        iVar1 = iVar1 + -1;
+        in_CF = (uint8_t)*arg_8h < *puVar2;
+        in_ZF = *arg_8h == *puVar2;
+        arg_8h = (char *)((uint8_t *)arg_8h + 1);
+        puVar2 = puVar2 + 1;
+    } while ((bool)in_ZF);
+    return (int32_t)(char)((!(bool)in_CF && !(bool)in_ZF) - in_CF);
+}
+
+int32_t verify_user_name(void)
+{
+    int32_t iVar1;
+    code *pcVar2;
+    code *pcVar3;
+    undefined uVar4;
+    undefined uVar5;
+    uint8_t uVar6;
+    
+    uVar6 = 0;
+    uVar4 = &stack0xfffffff4 < (undefined *)0x10;
+    uVar5 = (undefined *)*(BADSPACEBASE **)0x10 == (undefined *)0x1c;
+    puts();
+    iVar1 = 7;
+    pcVar2 = a_user_name;
+    pcVar3 = (code *)"dat_wil";
+    do {
+        if (iVar1 == 0) break;
+        iVar1 = iVar1 + -1;
+        uVar4 = (uint8_t)*pcVar2 < (uint8_t)*pcVar3;
+        uVar5 = *pcVar2 == *pcVar3;
+        pcVar2 = pcVar2 + (uint32_t)uVar6 * -2 + 1;
+        pcVar3 = pcVar3 + (uint32_t)uVar6 * -2 + 1;
+    } while ((bool)uVar5);
+    return (int32_t)(char)((!(bool)uVar4 && !(bool)uVar5) - uVar4);
+}
 
 // WARNING: Variable defined which should be unmapped: var_bp_8h
 
