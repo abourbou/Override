@@ -1,0 +1,6 @@
+username = dat_wil
+
+allows us to segfault on the password entry
+
+84 A allows us to overflow eip
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
