@@ -1,0 +1,17 @@
+
+// WARNING: Removing unreachable block (ram,0x08048868)
+
+undefined4 main(void)
+{
+    int32_t iStack20;
+
+    srand(time());
+    puts("***********************************");
+    puts("*               level03         **");
+    puts("***********************************");
+    printf("Password:");
+ 	eax = 0x8048a85;
+    scanf ("%s", &var_1ch);
+    test(iStack20, 0x1337d00d);
+    return 0;
+}
