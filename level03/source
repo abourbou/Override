@@ -1,5 +1,21 @@
+void test(int32_t arg_8h, int32_t arg_ch)
+{
+    int32_t arg_8h_00;
+    unsigned long var_ch;
 
-// WARNING: Removing unreachable block (ram,0x08048868)
+    arg_ch = ;
+	if (arg_ch - arg_8h)
+    switch(arg_ch) {
+    default:
+        arg_8h_00 = rand();
+        decrypt(arg_8h_00);
+        break;
+    case 1 to 15:
+        decrypt(arg_ch);
+        break;
+    return;
+}
+
 
 undefined4 main(void)
 {
@@ -12,6 +28,6 @@ undefined4 main(void)
     printf("Password:");
  	eax = 0x8048a85;
     scanf ("%s", &var_1ch);
-    test(iStack20, 0x1337d00d);
+    test(var_1ch, 0x1337d00d); //? what is 0x1337d00d
     return 0;
 }
