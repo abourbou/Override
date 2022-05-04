@@ -1,11 +1,25 @@
-input : AAAAAAAAAAAAAAAAAAAAAAAA
-ecx            0x1b3ae019       456843289
+Using gbd I found (by inspecting ecx before the if (aka var_ch))
+that I had to input 322424830 so arch_ch - arg_8c = 15
+That allows us to dodge the if statement that usualy jumps on 0x804884a
+Wich make a decrypt() on a random generated number.
 
-input : AA
-ecx            0x1b3ae019       456843289
+After some investigation we've found that even by skipping the if statement we ended up
+jumping on 0x804884a anyway as we jump on eax and that eax is modified before the jump.
 
-input : -151884894613
-ecx            0x9337d00d       -1825058803
+0x08048757      mov eax, ecx
+0x08048759      mov dword [var_ch], eax
+0x0804875c      cmp dword [var_ch], 0x15
+0x08048760      ja 0x804884a
+0x08048766      mov eax, dword [var_ch]
+0x08048769      shl eax, 2
+0x0804876c      add eax, 0x80489f0
+0x08048771      mov eax, dword [eax]
+0x08048773      jmp eax
 
-input : -1
-ecx            0x1337d00e       322424846
+As bytes are shifted by 2, we conclued that we had to input more that 2 bytes in our scanf
+
+So we tried to input stuff wich are grater than 16 and below 0x15 (aka 21)
+
+And so 322424827 (ecx = 0x12 = 18) did the job.
+
+$ cat /home/users/level04/.pass
