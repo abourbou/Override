@@ -1,0 +1,11 @@
+input : AAAAAAAAAAAAAAAAAAAAAAAA
+ecx            0x1b3ae019       456843289
+
+input : AA
+ecx            0x1b3ae019       456843289
+
+input : -151884894613
+ecx            0x9337d00d       -1825058803
+
+input : -1
+ecx            0x1337d00e       322424846
