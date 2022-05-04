@@ -3,16 +3,12 @@ void test(int32_t arg_8h, int32_t arg_ch)
     int32_t arg_8h_00;
     unsigned long var_ch;
 
-    arg_ch = ;
-	if (arg_ch - arg_8h)
-    switch(arg_ch) {
-    default:
+    arg_ch = (arg_ch - arg_8h);
+    if (arg_ch > 0x15)
         arg_8h_00 = rand();
         decrypt(arg_8h_00);
-        break;
-    case 1 to 15:
+    else
         decrypt(arg_ch);
-        break;
     return;
 }
 
