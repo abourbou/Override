@@ -1,5 +1,3 @@
-
-
 Breakpoint 2 = b *0x08048803 -> break to see var_10h value
 
 Si s1 > 5 ->
@@ -23,6 +21,18 @@ Si s1 > 5 ->
 
     b *0x08048803
     eax = var_10h = 0x5f013f 6226239
+    eax = var_10h = 0x5f0163 6226275
+
+    var_10h depend de l'entrée (de la première string)'
 
     while 0x5f013f < var_ch (var_ch = première chaine de ch)
+
+    -> Enter Login: tetesesesesesese (len = 16)
+    
+    Breakpoint 5, 0x0804877d in auth ()
+	(gdb) info register
+    eax            0x10     16
+
+    DONC, on en conclu que var_ch est la longueur de la chaine login
+
 
