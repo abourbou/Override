@@ -1,0 +1,70 @@
+void main(void)
+{
+    uint8_t uVar1;
+    uint32_t uVar2;
+    uint32_t uVar3;
+    uint8_t *puVar4;
+    uint8_t uVar5;
+    uint8_t auStack120 [100];
+    uint32_t uStack20;
+
+    uVar5 = 0;
+    uStack20 = 0;
+    fgets(auStack120, 100, _stdin);
+    uStack20 = 0;
+    do {
+        uVar2 = uStack20;
+        uVar3 = 0xffffffff;
+        puVar4 = auStack120;
+		uVar3 = strlen(puvar4);
+        if (uVar3 <= uStack20) {
+            printf(auStack120);
+            exit(0);
+            __i686.get_pc_thunk.bx(uVar2);
+            .init();
+            return;
+        }
+        if (('@' < (char)auStack120[uStack20]) && ((char)auStack120[uStack20] < '[')) {
+            auStack120[uStack20] = auStack120[uStack20] ^ 0x20;
+        }
+        uStack20 = uStack20 + 1;
+    } while( true );
+}
+
+int32_t main (void) {
+    int32_t size;
+    FILE * stream;
+    int32_t var_1ch;
+    char format[100];
+    int32_t var_8ch;
+    var_8ch = 0;
+
+    fgets (&format, *(stdin), 100);
+    var_8ch = 0;
+    while (true) {
+        eax = *(&format + var_8ch);
+        if (al > 0x40) {
+            eax = *(&format + var_8ch);
+            if (al > 'Z') {
+                goto label_0;
+            }
+            *(&format + var_8ch) = lowercase(*(&format + var_8ch))
+        }
+label_0:
+        var_8ch++;
+        ebx = var_8ch;
+        eax = &format;
+        var_1ch = 0xffffffff;
+        edx = eax;
+        eax = 0;
+        ecx = var_1ch;
+        edi = edx;
+        __asm ("repne scasb al, byte es:[edi]");
+        eax = ecx;
+        eax = ~eax;
+        eax--;
+    }
+    eax = &format;
+    printf (eax);
+    return exit (0);
+}
