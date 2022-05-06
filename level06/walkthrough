@@ -1,0 +1,28 @@
+
+
+Breakpoint 2 = b *0x08048803 -> break to see var_10h value
+
+Si s1 > 5 ->
+.---------------------------.
+| !! TAMPERING DETECTED !!  |
+'---------------------------'
+
+À cause de ptrace MAIS on passe le premier if
+
+   0x080487b5 <+109>:   call   0x80485f0 <ptrace@plt>
+   0x080487ba <+114>:   cmp    $0xffffffff,%eax
+   0x080487bd <+117>:   jne    0x80487ed <auth+165>
+
+   b *0x080487ba -> changer eax to 0 pour passer ce check
+
+   p $eax $1 = -1
+   set $eax = 0
+   p $eax $2 = 0
+
+   permet de dodge le check (qui n'arrive que dan gdb donc un faux problème')
+
+    b *0x08048803
+    eax = var_10h = 0x5f013f 6226239
+
+    while 0x5f013f < var_ch (var_ch = première chaine de ch)
+
