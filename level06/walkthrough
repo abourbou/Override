@@ -28,11 +28,48 @@ Si s1 > 5 ->
     while 0x5f013f < var_ch (var_ch = première chaine de ch)
 
     -> Enter Login: tetesesesesesese (len = 16)
-    
+
     Breakpoint 5, 0x0804877d in auth ()
 	(gdb) info register
     eax            0x10     16
 
     DONC, on en conclu que var_ch est la longueur de la chaine login
+
+    Si len login <= 5 eax = 1
+
+
+    Breakpoint 6, 0x080487f9 in auth ()
+    (gdb) info register
+    eax = al = 0x74     116
+
+    if (al <= 0x1f)
+        {
+            eax = 1;
+            goto label_0;
+        }
+
+    Normalement tout le temps faux car al ne semble pas changer
+
+    var_10h += eax; ->
+    0x08048854      add dword [var_10h], eax
+
+    Nous permet de connaitre var_10h utile dans la comparaison plus bas
+    En effet on connait var_10h à b *0x08048803 (mais elle depend de la len de login)
+
+    Ensuite il suffit de lui ajouter eax à b *0x08048854 (mais c'est un while, il faut donc le vérifier à la dernière ittération de ce dernier
+    il boucle selon la len de login)'
+
+
+    -> Enter Login: efsdgfgwesdfbgsfdgfbe  
+
+    -> Enter Serial: tesg
+
+    Breakpoint 7, 0x08048866 in auth ()
+    (gdb) info register
+    eax            0x15     21 (ressemble à la len de login)
+
+    ici si var_10h != eax on fail, sinon c'est gagné'
+
+
 
 
