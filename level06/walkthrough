@@ -1,75 +1,15 @@
-Breakpoint 2 = b *0x08048803 -> break to see var_10h value
 
-Si s1 > 5 ->
-.---------------------------.
-| !! TAMPERING DETECTED !!  |
-'---------------------------'
+#first we can see our program take 2 arguments
+login and serial
 
-À cause de ptrace MAIS on passe le premier if
+#then it go to auth function
+the function does 3 tests:
+- 1st test if the login length > 5
+- 2nd test if the program is traced (with gdb)
+- 3th pass login in a loop and compare with the serial argument
 
-   0x080487b5 <+109>:   call   0x80485f0 <ptrace@plt>
-   0x080487ba <+114>:   cmp    $0xffffffff,%eax
-   0x080487bd <+117>:   jne    0x80487ed <auth+165>
+=> we create a login with 6 char : "aaaaaa"
+=> we used a program who reproduce the loop : strange_operation.c with the string "aaaaaa"
+=> the program final value is 6232801
 
-   b *0x080487ba -> changer eax to 0 pour passer ce check
-
-   p $eax $1 = -1
-   set $eax = 0
-   p $eax $2 = 0
-
-   permet de dodge le check (qui n'arrive que dan gdb donc un faux problème')
-
-    b *0x08048803
-    eax = var_10h = 0x5f013f 6226239
-    eax = var_10h = 0x5f0163 6226275
-
-    var_10h depend de l'entrée (de la première string)'
-
-    while 0x5f013f < var_ch (var_ch = première chaine de ch)
-
-    -> Enter Login: tetesesesesesese (len = 16)
-
-    Breakpoint 5, 0x0804877d in auth ()
-	(gdb) info register
-    eax            0x10     16
-
-    DONC, on en conclu que var_ch est la longueur de la chaine login
-
-    Si len login <= 5 eax = 1
-
-
-    Breakpoint 6, 0x080487f9 in auth ()
-    (gdb) info register
-    eax = al = 0x74     116
-
-    if (al <= 0x1f)
-        {
-            eax = 1;
-            goto label_0;
-        }
-
-    Normalement tout le temps faux car al ne semble pas changer
-
-    var_10h += eax; ->
-    0x08048854      add dword [var_10h], eax
-
-    Nous permet de connaitre var_10h utile dans la comparaison plus bas
-    En effet on connait var_10h à b *0x08048803 (mais elle depend de la len de login)
-
-    Ensuite il suffit de lui ajouter eax à b *0x08048854 (mais c'est un while, il faut donc le vérifier à la dernière ittération de ce dernier
-    il boucle selon la len de login)'
-
-
-    -> Enter Login: efsdgfgwesdfbgsfdgfbe  
-
-    -> Enter Serial: tesg
-
-    Breakpoint 7, 0x08048866 in auth ()
-    (gdb) info register
-    eax            0x15     21 (ressemble à la len de login)
-
-    ici si var_10h != eax on fail, sinon c'est gagné'
-
-
-
-
+#we just need to use login : "aaaaaa" with serial : 6232801 and it opens a shell
