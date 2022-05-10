@@ -5,7 +5,7 @@
 int	main(void)
 {
 	int i = 0;
-	int nb = -4160441661;
+	int nb = 114 * 4;
 	int finish = 0;
 
 	printf("we search for i * 4 = %d\n", nb);
