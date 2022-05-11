@@ -7,33 +7,29 @@ int main(void)
 }
 
 uint64_t handle_msg (void) {
-	char *var_c0h;
+	char var_c0h[180];
 	char *var_ch;
 
-	bzero(var_c0h, 4);
-    var_ch = 140;
+	bzero(&var_c0h + 140, 4);
     set_username(&var_c0h);
     set_msg(&var_c0h);
     puts(">: Msg sent!");
     return;
 }
 
-void set_username(int64_t arg1)
+void set_username(char *arg1)
 {
-    int64_t iVar1;
-    int64_t var_98h;
-    char *s;
-    int64_t i;
+    char s[140];
 
     bzero(s, 16);
     puts(">: Enter your username");
     printf(">>: ");
     fgets(&s, 128, stdin);
-    for (i = 0; i < 41 && *(&s + i) != '\0'; i++)
+    for (int64_t i = 0; i < 41 && s[i]; i++)
 	{
-        *(arg1 + 140 + i) = *(&s + i);
+        arg1[140 + i] = s[i];
     }
-    printf(">: Welcome, %s", arg1 + 140);
+    printf(">: Welcome, %s", &arg1[140]);
     return;
 }
 
