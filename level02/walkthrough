@@ -76,7 +76,8 @@ Je récupère donc ce buffeur dans le test du dessus (sans les A), je le convert
 0x4868373452506e750x51397361354a41450x58674e5743717a370x7358476e68354a350x4d394b6650673348 -> Hh74RPnuQ9sa5JAEXgNWCqz7sXGnh5J5M9KfPg3H
 
 Je décide de le redonner à mon programme afin qu'il l'inverse et donc le rende égal au mot de passe présent dans la variable str et tout fonctionne.
-
+./level02
+--[ Username: osef
 --[ Password: Hh74RPnuQ9sa5JAEXgNWCqz7sXGnh5J5M9KfPg3H
 
 $ cat /home/users/level03/.pass

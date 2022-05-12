@@ -22,4 +22,6 @@ So we tried to input stuff wich are grater than 16 and below 0x15 (aka 21)
 
 And so 322424827 (ecx = 0x12 = 18) did the job.
 
+./level03
+Password:322424827
 $ cat /home/users/level04/.pass
