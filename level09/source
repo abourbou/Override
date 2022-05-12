@@ -44,6 +44,8 @@ void set_msg(char *arg1)
     puts(">: Msg @Unix-Dude");
     printf(">>: ");
     fgets(src, 1024, stdin);
-    strncpy(arg1, &src, *(arg1 + 180));
+
+    strncpy ();
+    strncpy(arg1, &src, arg1[180]);
     return;
 }
